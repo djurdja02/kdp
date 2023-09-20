@@ -28,12 +28,12 @@ public class Combiner extends Thread {
 	public void run() {
 		//wait for every consumer to process data
 		waitFor.await(0);
-		results.put(null);
+		results.put(null,"null");
 		int max=0;
 		List<String> names=new ArrayList<>();
 		Result tmp;
 		//finding max data 
-		while((tmp=results.get())!=null) {
+		while((tmp=results.get("combiner"))!=null) {
 			if(tmp.getCnt()>max) {
 				max=tmp.getCnt();
 				names.clear();
@@ -51,7 +51,7 @@ public class Combiner extends Thread {
 		//getting films from consumers with most dirCnt
 		for(int i=0;i<names.size();) {
 			Film tmp2;
-			while((tmp2=send.get())!=null) {
+			while((tmp2=send.get("combiner"))!=null) {
 				end.put(tmp2);
 			}
 			i++;

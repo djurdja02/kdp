@@ -38,8 +38,8 @@ public class Consumer extends Thread{
 		int num=0;
 		int dirCnt=0;
 		List<Film> max=new ArrayList<>();
-		while((film=films.get())!=null) {
-			
+		while((film=films.get(name))!=null) {
+			if(film.getDirectors()==null)continue;
 			if(film.getDirectors().length>dirCnt) {
 				dirCnt=film.getDirectors().length;
 				max.clear();
@@ -53,8 +53,8 @@ public class Consumer extends Thread{
 			}
 		}
 		processed.put(name, num);
-		films.put(null);
-		results.put(new Result(name,dirCnt));
+		films.put(null,"null");
+		results.put(new Result(name,dirCnt),name);
 		//inform the combiner that we arrived
 		combiner.arrived();
 		//wait to check if we have global max dirCnt
@@ -62,8 +62,8 @@ public class Consumer extends Thread{
 		if(checkMax.containsKey(name)) {
 			if(checkMax.get(name)) {
 				ListIterator<Film> iterator = max.listIterator();
-				while(iterator.hasNext())send.put(iterator.next());
-				send.put(null);
+				while(iterator.hasNext())send.put(iterator.next(),name);
+				send.put(null,"null "+name);
 			}
 		}
 		

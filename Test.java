@@ -15,17 +15,17 @@ public class Test {
 		ConcurrentHashMap<String, Boolean> checkMax=new ConcurrentHashMap<String, Boolean>();
 		SemaphoreBuff<Film> send= new SemaphoreBuff<Film>(1000);
 		Producer p=new Producer(line, buf);
-		p.run();
+		p.start();
 		for(int i=0;i<cCnt;i++) {
 		Consumer cs=new Consumer(10, "consumer"+i, buf, results, combiner, combiner2, processed, checkMax, send);
-		cs.run();
+		cs.start();
 		}
 		Barrier printer=new Barrier(1);
 		Buffer<Film> end=new Buffer<>();
 		Combiner c=new Combiner(results, combiner, combiner2, printer, checkMax, send, end);
-		c.run();
+		c.start();
 		Printer pr=new Printer(printer, 1, end, processed);
-		pr.run();
+		pr.start();
 	}
 
 }

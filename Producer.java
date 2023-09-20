@@ -16,12 +16,13 @@ public class Producer extends Thread{
 	public void run() {
 		try {
 			BufferedReader br=new BufferedReader(new FileReader(films));
-			String film=br.readLine();
-			while( !(film=br.readLine()).equals(null)) {
-				buf.put(new Film(film));
+			String film;
+			while( (film=br.readLine())!=null) {
+				buf.put(new Film(film),"producer");
 			}
+			System.out.println("pass");
 			br.close();
-			buf.put(null);
+			buf.put(null,"null");
 			
 		} catch (Exception e) {
 			System.out.println("File can't be open.");
