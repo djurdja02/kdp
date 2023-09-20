@@ -1,5 +1,7 @@
 package jd;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Test {
@@ -21,7 +23,7 @@ public class Test {
 		cs.start();
 		}
 		Barrier printer=new Barrier(1);
-		Buffer<Film> end=new Buffer<>();
+		List<Film> end=new ArrayList<>();
 		Combiner c=new Combiner(results, combiner, combiner2, printer, checkMax, send, end);
 		c.start();
 		Printer pr=new Printer(printer, 1, end, processed);

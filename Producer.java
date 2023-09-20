@@ -2,6 +2,7 @@ package jd;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 
 public class Producer extends Thread{
 
@@ -20,13 +21,12 @@ public class Producer extends Thread{
 			while( (film=br.readLine())!=null) {
 				buf.put(new Film(film),"producer");
 			}
-			System.out.println("pass");
 			br.close();
 			buf.put(null,"null");
 			
-		} catch (Exception e) {
-			System.out.println("File can't be open.");
-		} 
+		}catch(IOException e) {
+			System.out.println("File can't be open");
+		}
 	}
 	
 }

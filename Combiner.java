@@ -11,12 +11,12 @@ public class Combiner extends Thread {
 	private Barrier printer;
 	private ConcurrentHashMap<String, Boolean> checkMax;
 	private SemaphoreBuff<Film> send;
-	private Buffer<Film> end;
+	private List<Film> end;
 	
 	public Combiner(SemaphoreBuff<Result> results,
 			Barrier waitFor,Barrier combiner2,Barrier printer,
 			ConcurrentHashMap<String, Boolean> checkMax,
-			SemaphoreBuff<Film> send, Buffer<Film> end) {
+			SemaphoreBuff<Film> send, List<Film> end) {
 		this.results=results;
 		this.waitFor=waitFor;
 		this.combiner2=combiner2;
@@ -52,11 +52,11 @@ public class Combiner extends Thread {
 		for(int i=0;i<names.size();) {
 			Film tmp2;
 			while((tmp2=send.get("combiner"))!=null) {
-				end.put(tmp2);
+				end.add(tmp2);
 			}
 			i++;
 		}
-		end.put(null);
+		end.add(null);
 		//letting printer know that combiner is done with work
 		printer.arrived();
 	}
